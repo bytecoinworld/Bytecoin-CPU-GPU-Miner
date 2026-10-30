@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17212b">
+  <meta name="description" content="Local Bytecoin CPU and GPU miner dashboard">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
+  <title>BCN Miner | Bytecoin</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#overview" aria-label="BCN Miner home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg class="bytecoin-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.99 215.99">
+            <circle fill="#f04086" cx="107.99" cy="107.99" r="107.99"/>
+            <path fill="#fff" d="M158.2 113.09q-6.37-7.05-18.36-8.75v-.17c7-1.13 12.5-4 16.24-8.59a25.09 25.09 0 0 0 5.82-16.23c0-9.86-3.18-16.56-9.75-21.83s-16.44-7-29.81-7h-50.5v47h-29v18H122c6.23 0 10.91.44 14 2.93s4.67 5.71 4.67 10.47-1.56 8.82-4.67 11.37-7.79 4.23-14 4.23H94.84v-14h-23v32H124c13.26 0 23.4-3.46 30.43-8.84s10.33-13.33 10.33-23.08a25.72 25.72 0 0 0-6.56-17.51zm-39.1-15.62H94.84v-29h24.26c12.47 0 18.7 4.87 18.7 14.5s-6.23 14.5-18.7 14.5z"/>
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>bytecoin</strong><small>MINER STUDIO</small></span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <a class="nav-link active" href="#overview"><span class="nav-icon">01</span>Overview</a>
+        <a class="nav-link" href="#devices"><span class="nav-icon">02</span>Devices</a>
+        <a class="nav-link" href="#activity"><span class="nav-icon">03</span>Activity</a>
+        <a class="nav-link" href="#settings"><span class="nav-icon">04</span>Settings</a>
+        <a class="nav-link" href="#pool-stats"><span class="nav-icon">05</span>Pool data</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="local-card">
+          <span class="local-dot"></span>
+          <div><strong>Private by design</strong><small>Dashboard runs on this PC</small></div>
+        </div>
+        <div class="sidebar-version">BYTECOIN <span>MAINNET</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Miner overview</strong></div>
+        <div class="topbar-actions">
+          <span class="connection-pill" id="connection-pill"><i></i><span id="connection-label">Miner idle</span></span>
+          <button class="icon-button" id="refresh-button" type="button" aria-label="Refresh dashboard" title="Refresh">↻</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <canvas class="hero-particles" id="hero-particles" aria-hidden="true"></canvas>
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> BYTECOIN / CRYPTONIGHT</div>
+          <h1>Your hash.<br><span>In motion.</span></h1>
+          <p>One calm view for your Bytecoin mining session. Configure your pool, choose your hardware, and watch every hash land.</p>
+          <div class="hero-meta"><span class="hero-orb"></span><span>LOCAL MINING CONSOLE</span><span class="meta-separator">/</span><span>CPU + OPENCL GPU</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orb-ring ring-one"></div>
+          <div class="orb-ring ring-two"></div>
+          <div class="orb-core">
+            <svg class="bytecoin-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.99 215.99">
+              <circle fill="#f04086" cx="107.99" cy="107.99" r="107.99"/>
+              <path fill="#fff" d="M158.2 113.09q-6.37-7.05-18.36-8.75v-.17c7-1.13 12.5-4 16.24-8.59a25.09 25.09 0 0 0 5.82-16.23c0-9.86-3.18-16.56-9.75-21.83s-16.44-7-29.81-7h-50.5v47h-29v18H122c6.23 0 10.91.44 14 2.93s4.67 5.71 4.67 10.47-1.56 8.82-4.67 11.37-7.79 4.23-14 4.23H94.84v-14h-23v32H124c13.26 0 23.4-3.46 30.43-8.84s10.33-13.33 10.33-23.08a25.72 25.72 0 0 0-6.56-17.51zm-39.1-15.62H94.84v-29h24.26c12.47 0 18.7 4.87 18.7 14.5s-6.23 14.5-18.7 14.5z"/>
+            </svg>
+          </div>
+          <div class="orb-caption"><span>BCN</span><small>PROOF OF WORK</small></div>
+          <span class="spark spark-one"></span><span class="spark spark-two"></span><span class="spark spark-three"></span>
+        </div>
+        <div class="hero-glow"></div>
+      </section>
+
+      <section class="metric-grid" aria-label="Mining summary">
+        <article class="metric-card primary-metric">
+          <div class="metric-top"><span class="metric-icon pink">↗</span><span class="metric-label">LIVE HASHRATE</span><span class="live-indicator" id="live-indicator">IDLE</span></div>
+          <div class="metric-value"><strong id="metric-hashrate">0.0</strong><span>H/s</span></div>
+          <div class="metric-foot"><span class="metric-sparkline" aria-hidden="true"></span><span id="metric-hashrate-caption">Waiting for a mining session</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-icon mint">✓</span><span class="metric-label">ACCEPTED SHARES</span></div>
+          <div class="metric-value"><strong id="metric-accepted">0</strong><span class="unit-label">shares</span></div>
+          <div class="metric-foot"><span class="metric-dot mint-dot"></span><span id="metric-rejected">0 rejected</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-icon violet">◷</span><span class="metric-label">SESSION TIME</span></div>
+          <div class="metric-value"><strong id="metric-uptime">00:00:00</strong></div>
+          <div class="metric-foot"><span class="metric-dot violet-dot"></span><span id="metric-hashes">0 hashes computed</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-icon blue">▦</span><span class="metric-label">ACTIVE WORKERS</span></div>
+          <div class="metric-value"><strong id="metric-workers">0</strong><span class="unit-label">threads</span></div>
+          <div class="metric-foot"><span class="metric-dot blue-dot"></span><span id="metric-topology">Hardware not scanned yet</span></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel setup-panel" id="settings">
+          <div class="panel-heading">
+            <div class="heading-mark settings-mark">⌘</div>
+            <div><div class="eyebrow">YOUR SETUP</div><h2>Mining settings</h2></div>
+            <span class="panel-step">01</span>
+          </div>
+          <form id="miner-form" autocomplete="off">
+            <label class="field-label" for="pool">Pool endpoint</label>
+            <input id="pool" name="pool" type="text" value="pool.bytecoin.network:3333" placeholder="pool.example:3333" required>
+
+            <label class="field-label" for="wallet">Bytecoin wallet address</label>
+            <input id="wallet" name="wallet" type="text" placeholder="Enter your BCN wallet address" required>
+
+            <label class="field-label" for="password">Pool password <span class="optional">OPTIONAL</span></label>
+            <input id="password" name="password" type="password" placeholder="x">
+
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label" for="backend">Mining backend</label>
+                <select id="backend" name="backend">
+                  <option value="both">CPU + GPU</option>
+                  <option value="cpu">CPU only</option>
+                  <option value="gpu">GPU only</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="threads">CPU threads</label>
+                <select id="threads" name="threads"><option value="auto">Auto tune</option></select>
+              </div>
+            </div>
+
+            <details class="advanced-settings">
+              <summary><span>Advanced connection</span><span class="summary-hint">TLS & nonce settings</span></summary>
+              <div class="advanced-body">
+                <label class="field-label" for="nonce-offset">Nonce offset</label>
+                <input id="nonce-offset" name="nonce_offset" type="number" min="0" max="1024" value="39">
+                <label class="check-row"><input id="tls" name="tls" type="checkbox"><span class="check-box"></span><span><strong>Verified TLS</strong><small>Encrypt the pool connection and verify its certificate.</small></span></label>
+              </div>
+            </details>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="start-button" type="submit"><span class="button-play">▶</span>Start mining</button>
+              <button class="button button-secondary" id="pause-button" type="button" disabled><span>Ⅱ</span>Pause</button>
+              <button class="button button-danger" id="stop-button" type="button" disabled><span>■</span>Stop</button>
+              <button class="button button-quit" id="quit-button" type="button" aria-label="Quit miner and close dashboard" title="Stop mining and close BCN Miner"><span aria-hidden="true">⏻</span>Quit</button>
+            </div>
+            <section class="startup-progress" id="startup-progress" aria-live="off" hidden>
+              <div class="startup-progress-header">
+                <div><span class="eyebrow">MINER STARTUP</span><strong id="startup-phase" aria-live="polite" aria-atomic="true">Preparing mining session</strong></div>
+                <span class="startup-elapsed">Elapsed <strong id="startup-elapsed">00:00:00</strong></span>
+              </div>
+              <div class="startup-track" id="startup-track" role="progressbar" aria-label="Mining startup progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5">
+                <span class="startup-fill" id="startup-fill"></span>
+              </div>
+              <div class="startup-progress-footer">
+                <span id="startup-step">Preparing</span>
+                <span id="startup-detail">Startup time varies by hardware and pool response.</span>
+              </div>
+            </section>
+            <p class="form-note"><span class="note-icon">i</span>Mining uses your selected CPU/GPU while active. Start conservatively and monitor temperatures.</p>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+          </form>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-heading chart-heading">
+            <div class="heading-mark chart-mark">⌁</div>
+            <div><div class="eyebrow">LIVE PERFORMANCE</div><h2>Hashrate over time</h2></div>
+            <span class="chart-live"><i></i> LIVE</span>
+          </div>
+          <div class="chart-summary"><strong id="chart-current">0.0 <small>H/s</small></strong><span id="chart-range">Your session will appear here</span></div>
+          <div class="chart-wrap">
+            <div class="chart-y-labels"><span>1.0 kH/s</span><span>750 H/s</span><span>500 H/s</span><span>250 H/s</span><span>0 H/s</span></div>
+            <canvas id="hashrate-chart" aria-label="Live hashrate chart" role="img"></canvas>
+          </div>
+          <div class="chart-axis"><span>60 seconds ago</span><span>30 seconds</span><span>NOW</span></div>
+          <div class="chart-legend"><span><i class="legend-line"></i>Total hashrate</span><span><i class="legend-line legend-cpu"></i>CPU</span><span><i class="legend-line legend-gpu"></i>GPU</span></div>
+          <div class="chart-stats">
+            <div><small>CPU CONTRIBUTION</small><strong id="chart-cpu">0.0 H/s</strong></div>
+            <div><small>GPU CONTRIBUTION</small><strong id="chart-gpu">0.0 H/s</strong></div>
+            <div><small>POOL DIFFICULTY</small><strong id="chart-difficulty">—</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel pool-panel" id="pool-stats">
+        <div class="section-heading">
+          <div><div class="eyebrow">POOL INTELLIGENCE</div><h2>Pool & account data</h2></div>
+          <span class="pool-api-indicator" id="pool-api-indicator">API not connected</span>
+        </div>
+        <form class="pool-api-form" id="pool-api-form">
+          <div class="pool-api-field">
+            <label class="field-label" for="pool-api-url">Pool statistics API URL</label>
+            <div class="pool-api-input-wrap">
+              <span class="pool-api-input-icon" aria-hidden="true">⌁</span>
+              <input id="pool-api-url" name="pool_api_url" type="url" maxlength="2048"
+                placeholder="https://your-pool.example/api/stats" autocomplete="url" required>
+            </div>
+          </div>
+          <button class="button button-primary pool-api-button" id="pool-api-submit" type="submit">
+            <span aria-hidden="true">↻</span>Load pool data
+          </button>
+        </form>
+        <p class="pool-api-note">The API URL is filled automatically for pool.bytecoin.network. For other pools, enter their public stats API URL. Data is fetched read-only; your wallet is not added to the API request.</p>
+        <p class="pool-api-error" id="pool-api-error" role="alert" hidden></p>
+
+        <section class="pool-results" id="pool-api-results" aria-live="polite" hidden>
+          <div class="pool-results-heading">
+            <div><span class="eyebrow">DATA SOURCE</span><strong id="pool-api-source"></strong></div>
+            <span id="pool-api-updated"></span>
+          </div>
+          <div class="pool-info-grid">
+            <article class="pool-result-card account-card">
+              <div class="pool-card-heading"><span class="pool-card-icon account-icon">◉</span><div><span>YOUR LOCAL SESSION</span><strong>Mining account</strong></div></div>
+              <code class="pool-wallet" id="pool-user-wallet">Add a wallet in Mining settings</code>
+              <div class="pool-stat-grid">
+                <div class="pool-stat"><span>Live hashrate</span><strong id="pool-user-hashrate">0.0 H/s</strong></div>
+                <div class="pool-stat"><span>Session time</span><strong id="pool-user-uptime">00:00:00</strong></div>
+                <div class="pool-stat"><span>Accepted shares</span><strong id="pool-user-accepted">0</strong></div>
+                <div class="pool-stat"><span>Rejected / pending</span><strong id="pool-user-share-state">0 / 0</strong></div>
+              </div>
+              <p class="pool-card-note">Account metrics come from this miner session. This public API does not provide per-wallet balance or payout history.</p>
+            </article>
+
+            <article class="pool-result-card">
+              <div class="pool-card-heading"><span class="pool-card-icon pool-icon">⌁</span><div><span>POOL OVERVIEW</span><strong>Current pool state</strong></div></div>
+              <div class="pool-stat-grid">
+                <div class="pool-stat"><span>Pool hashrate</span><strong id="pool-hashrate">—</strong></div>
+                <div class="pool-stat"><span>Active miners</span><strong id="pool-miners">—</strong></div>
+                <div class="pool-stat"><span>Round hashes</span><strong id="pool-round-hashes">—</strong></div>
+                <div class="pool-stat"><span>Blocks found</span><strong id="pool-blocks">—</strong></div>
+                <div class="pool-stat"><span>Pool fee</span><strong id="pool-fee">—</strong></div>
+                <div class="pool-stat"><span>Minimum payout</span><strong id="pool-minimum-payout">—</strong></div>
+              </div>
+            </article>
+
+            <article class="pool-result-card">
+              <div class="pool-card-heading"><span class="pool-card-icon network-icon">◎</span><div><span>BYTECOIN NETWORK</span><strong>Network snapshot</strong></div></div>
+              <div class="pool-stat-grid">
+                <div class="pool-stat"><span>Block height</span><strong id="network-height">—</strong></div>
+                <div class="pool-stat"><span>Difficulty</span><strong id="network-difficulty">—</strong></div>
+                <div class="pool-stat"><span>Block reward</span><strong id="network-reward">—</strong></div>
+                <div class="pool-stat"><span>Target block time</span><strong id="network-block-time">—</strong></div>
+                <div class="pool-stat"><span>Total payments</span><strong id="pool-payments">—</strong></div>
+                <div class="pool-stat"><span>Miners paid</span><strong id="pool-miners-paid">—</strong></div>
+              </div>
+              <p class="pool-card-note" id="pool-last-block">Last pool block: —</p>
+            </article>
+          </div>
+
+          <article class="pool-result-card pool-ports-card">
+            <div class="pool-card-heading"><span class="pool-card-icon ports-icon">⇄</span><div><span>CONNECTION OPTIONS</span><strong>Pool mining ports</strong></div></div>
+            <div class="pool-ports-wrap">
+              <table class="pool-ports-table">
+                <thead><tr><th>Port</th><th>Share difficulty</th><th>Recommended for</th></tr></thead>
+                <tbody id="pool-ports"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="panel device-panel" id="devices">
+        <div class="section-heading">
+          <div><div class="eyebrow">HARDWARE</div><h2>Your mining devices</h2></div>
+          <span class="device-count" id="device-count">Scanning devices</span>
+        </div>
+        <div class="device-grid" id="device-grid">
+          <article class="device-card device-placeholder">
+            <div class="device-symbol cpu-symbol">CPU</div>
+            <div class="device-info"><strong>Processor</strong><span>Detecting your hardware…</span></div>
+            <span class="device-state">SCANNING</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel activity-panel" id="activity">
+        <div class="section-heading">
+          <div><div class="eyebrow">SESSION LOG</div><h2>Miner activity</h2></div>
+          <button class="text-button" id="clear-log" type="button">Clear activity</button>
+        </div>
+        <div class="activity-list" id="activity-list" aria-live="polite">
+          <div class="activity-empty"><span class="empty-pulse"></span><span>Ready when you are. Start mining to see pool and worker events.</span></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span class="footer-brand">
+          <span class="footer-mark" aria-hidden="true">
+            <svg class="bytecoin-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.99 215.99">
+              <circle fill="#f04086" cx="107.99" cy="107.99" r="107.99"/>
+              <path fill="#fff" d="M158.2 113.09q-6.37-7.05-18.36-8.75v-.17c7-1.13 12.5-4 16.24-8.59a25.09 25.09 0 0 0 5.82-16.23c0-9.86-3.18-16.56-9.75-21.83s-16.44-7-29.81-7h-50.5v47h-29v18H122c6.23 0 10.91.44 14 2.93s4.67 5.71 4.67 10.47-1.56 8.82-4.67 11.37-7.79 4.23-14 4.23H94.84v-14h-23v32H124c13.26 0 23.4-3.46 30.43-8.84s10.33-13.33 10.33-23.08a25.72 25.72 0 0 0-6.56-17.51zm-39.1-15.62H94.84v-29h24.26c12.47 0 18.7 4.87 18.7 14.5s-6.23 14.5-18.7 14.5z"/>
+            </svg>
+          </span>
+          BCN MINER <span class="footer-muted">/ LOCAL BYTECOIN MINING CONSOLE</span>
+        </span>
+        <span class="footer-author">Open source · by <a href="https://github.com/bytecoinworld" target="_blank" rel="noopener noreferrer">bytecoin.world community</a></span>
+        <span class="footer-secure"><i></i> LOCALHOST ONLY · YOUR WALLET STAYS ON THIS DEVICE</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

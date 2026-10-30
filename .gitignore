@@ -1,0 +1,11 @@
+/build/
+/out/
+/dist/
+/release-assets/
+/myconfig.txt
+/CMakeUserPresets.json
+/.vs/
+/.idea/
+*.user
+*.suo
+*.log

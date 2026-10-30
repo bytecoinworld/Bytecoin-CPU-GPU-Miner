@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="BcnMinerDesktopShortcut" Guid="D7C01310-D3AD-49DB-A319-62B5E1F8B70F">
+        <Shortcut
+          Id="BcnMinerDesktopShortcut"
+          Name="BCN Miner"
+          Target="[INSTALL_ROOT]bcnminer.exe"
+          Arguments="--gui"
+          WorkingDirectory="INSTALL_ROOT"
+          Icon="ProductIcon.ico"
+          IconIndex="0" />
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\bytecoin.world\BCN Miner"
+          Name="DesktopShortcut"
+          Type="integer"
+          Value="1"
+          KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+  </Fragment>
+</Wix>
